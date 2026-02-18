@@ -7,7 +7,7 @@ class Account(models.Model):
         User,
         on_delete=models.PROTECT,
         related_name='accounts',
-        verbose_name='Contas'
+        verbose_name='Conta'
     )
     name = models.CharField(max_length=100, verbose_name='Nome')
     phone = models.CharField(

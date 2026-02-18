@@ -6,8 +6,8 @@ class Customers(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.PROTECT,
-        related_name='customers',
-        verbose_name='Cliente'
+        related_name='accounts',
+        verbose_name='Contas'
     )
     name = models.CharField(max_length=100, verbose_name='Nome')
     phone = models.CharField(
@@ -22,16 +22,32 @@ class Customers(models.Model):
         null=True,
         verbose_name='Endereço'
     )
-    number = models.IntegerField(
-        max_length=10,
+    cnpj = models.CharField(
+        max_length=20,
         blank=True,
         null=True,
-        verbose_name='Número da casa'
+        verbose_name='CNPJ'
     )
     avatar_url = models.URLField(
         blank=True,
         null=True,
         verbose_name='Avatar'
+    )
+    instagram_url = models.URLField(
+        blank=True, 
+        null=True
+    )
+    facebook_url = models.URLField(
+        blank=True, 
+        null=True
+    )
+    other_url = models.URLField(
+        blank=True, 
+        null=True
+    )
+    color_palette = models.JSONField(
+        blank=True,
+        null=True,
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
@@ -43,8 +59,8 @@ class Customers(models.Model):
     )
 
     class Meta:
-        verbose_name = 'Cliente'
-        verbose_name_plural = 'Clientes'
+        verbose_name = 'Conta'
+        verbose_name_plural = 'Contas'
 
     def __str__(self):
         return f"{self.name}"

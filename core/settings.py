@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'accounts',
     'customers',
     'shopping',
 ]
@@ -65,7 +66,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-load_dotenv()
+load_dotenv(dotenv_path=os.path.join('database', '.env'))
 
 DATABASES = {
     'default': {

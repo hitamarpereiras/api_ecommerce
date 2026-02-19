@@ -1,12 +1,12 @@
 from django.db import models
-from customers.models import Customers
+from customers.models import Customer
 
 
 class Shopping(models.Model):
     customer = models.ForeignKey(
-        Customers,
+        Customer,
         on_delete=models.PROTECT,
-        verbose_name='Cliente',
+        verbose_name='Cliente ID',
     )
     itens = models.JSONField(
         blank=True,
@@ -17,7 +17,7 @@ class Shopping(models.Model):
         default=0,
         decimal_places=2,
         max_digits=10,
-        verbose_name='Total'
+        verbose_name='Subotal'
     )
     rate_delivery = models.DecimalField(
         default=0,

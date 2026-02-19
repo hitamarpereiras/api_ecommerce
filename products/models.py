@@ -32,7 +32,7 @@ class Product(models.Model):
                 decimal_places=2,
                 verbose_name='Preço'
         )
-        stock = models.ImageField(
+        stock = models.IntegerField(
                 default=0,
                 verbose_name='Estoque'
         )

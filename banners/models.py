@@ -6,7 +6,7 @@ class Banner(models.Model):
     id_account = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        verbose_name='Banner'
+        verbose_name='Conta ID'
     )
     name = models.CharField(max_length=100)
     banner_url = models.URLField(

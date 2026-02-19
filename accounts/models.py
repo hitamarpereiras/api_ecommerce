@@ -31,7 +31,7 @@ class Account(models.Model):
     avatar_url = models.URLField(
         blank=True,
         null=True,
-        verbose_name='Avatar'
+        verbose_name='Avatar URL'
     )
     instagram_url = models.URLField(
         blank=True, 

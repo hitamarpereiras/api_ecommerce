@@ -12,6 +12,7 @@ class Banner(models.Model):
     banner_url = models.URLField(
         blank=True,
         null=True,
+        verbose_name='URL do Banner'
     )
     link = models.URLField(
         blank=True,
@@ -20,23 +21,28 @@ class Banner(models.Model):
     value_publi = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        default=0
+        default=0,
+        verbose_name='Valor da Publicação'
     )
     crop_x = models.IntegerField(
         blank=True, 
-        null=True
+        null=True,
+        verbose_name='Eixo x'
     )
     crop_y = models.IntegerField(
         blank=True, 
-        null=True
+        null=True,
+        verbose_name='Eixo y'
     )
     crop_width = models.IntegerField(
         blank=True, 
-        null=True
+        null=True,
+        verbose_name='Corte Largura'
     )
     crop_height = models.IntegerField(
         blank=True, 
-        null=True
+        null=True,
+        verbose_name='Corte Altura'
     )
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(

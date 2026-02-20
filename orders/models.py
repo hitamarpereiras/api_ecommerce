@@ -3,10 +3,10 @@ from customers.models import Customer
 
 # Create your models here.
 class Order(models.Model):
-    customer_id = models.ForeignKey(
+    customer = models.ForeignKey(
         Customer,
         on_delete=models.PROTECT,
-        verbose_name='Cliente ID'
+        verbose_name='Cliente'
     )
     name_customer = models.CharField(
         max_length=100,
@@ -69,16 +69,22 @@ class Order(models.Model):
         max_digits=10,
         verbose_name='Troco'
     )
+    payment_method = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        verbose_name='Pago com'
+    )
     rate_delivery = models.DecimalField(
         default=0,
         decimal_places=2,
         max_digits=10,
         verbose_name='Taxa de Entrega'
     )
+    # Aqui precisa trocar para uma chave estrangeira
     delivery_manId = models.CharField(
         blank=True,
         null=True,
-        max_length=4,
         verbose_name='Entregador ID'
     )
     code = models.CharField(

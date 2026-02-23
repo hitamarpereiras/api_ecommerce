@@ -13,7 +13,8 @@ class DeliveryMan(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.PROTECT,
-        related_name='delivery_profile'
+        related_name='delivery_profile',
+        verbose_name='Entregador'
     )
     name = models.CharField(
         max_length=100,

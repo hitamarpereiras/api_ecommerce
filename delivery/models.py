@@ -78,3 +78,10 @@ class DeliveryMan(models.Model):
         verbose_name='Atualizado em',
     )
 
+    class Meta:
+        verbose_name = 'Entregador'
+        verbose_name_plural = 'Entregadores'
+
+    def __str__(self):
+        return f"{self.name}"
+

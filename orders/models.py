@@ -2,7 +2,7 @@ from django.db import models
 from customers.models import Customer
 from delivery.models import DeliveryMan
 
-# Create your models here.
+
 class Order(models.Model):
     customer = models.ForeignKey(
         Customer,

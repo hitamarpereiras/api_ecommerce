@@ -21,11 +21,20 @@ class Category(models.Model):
             verbose_name='Atualizado em',
         )
 
+        class Meta:
+            verbose_name = 'Categoria'
+            verbose_name_plural = 'Categorias'
+
+        def __str__(self):
+            return self.name
+        
 class Product(models.Model):
-        id_account = models.ForeignKey(
+        account = models.ForeignKey(
             Account,
+            blank=True,
+            null=True,
             on_delete=models.CASCADE,
-            verbose_name='Conta ID',
+            verbose_name='Conta',
             db_index=True
         )
         name = models.CharField(max_length=100)

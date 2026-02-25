@@ -37,12 +37,14 @@ class Sale(models.Model):
     account = models.ForeignKey(
         Account,
         on_delete=models.PROTECT,
-        verbose_name='Conta'
+        verbose_name='Conta',
+        db_index=True
     )
     order = models.ForeignKey(
         Order,
         on_delete=models.PROTECT,
-        verbose_name='Pedido'
+        verbose_name='Pedido',
+        db_index=True
     )
     status = models.BooleanField(default=False)
     collaborator = models.CharField(
@@ -57,13 +59,13 @@ class Sale(models.Model):
         null=True,
         verbose_name='Observação'
     )
-    updated_at = models.DateTimeField(
-        auto_now=True,
-        verbose_name='Atualizado em',
-    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Criado em',
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Atualizado em',
     )
 
 

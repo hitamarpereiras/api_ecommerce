@@ -1,23 +1,36 @@
 from django.db import models
 from accounts.models import Account
 
-class Category(models.TextChoices):
-        DRINK = 'bebidas', 'bebidas'
-        CANDY = 'doces', 'doces'
-        SALTY = 'salgados', 'salgados'
-        OTHER = 'outros', 'outros'
-        EXCLUSIVE = 'exclusivo', 'exclusivo'
+class Category(models.Model):
+        name = models.CharField(
+            max_length=50,
+            unique=True,
+            verbose_name='Categoria'
+        )
+        description = models.TextField(
+            default='Categoria sem descrição',
+            max_length=320,
+            verbose_name='Descrição',
+        )
+        created_at = models.DateTimeField(
+            auto_now_add=True,
+            verbose_name='Criado em',
+        )
+        updated_at = models.DateTimeField(
+            auto_now=True,
+            verbose_name='Atualizado em',
+        )
 
 class Product(models.Model):
         id_account = models.ForeignKey(
             Account,
             on_delete=models.CASCADE,
-            verbose_name='Conta ID'
+            verbose_name='Conta ID',
+            db_index=True
         )
         name = models.CharField(max_length=100)
         category = models.CharField(
-                choices=Category.choices,
-                default=Category.CANDY,
+                max_length=50,
                 verbose_name='Categoria',
                 db_index=True
         )
@@ -69,3 +82,10 @@ class Product(models.Model):
             auto_now=True,
             verbose_name='Atualizado em',
         )
+
+        class Meta:
+            verbose_name = 'Produto'
+            verbose_name_plural = 'Produtos'
+
+        def __str__(self):
+            return self.name

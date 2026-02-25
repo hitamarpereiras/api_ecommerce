@@ -7,7 +7,8 @@ class Order(models.Model):
     customer = models.ForeignKey(
         Customer,
         on_delete=models.PROTECT,
-        verbose_name='Cliente'
+        verbose_name='Cliente',
+        db_index=True,
     )
     name_customer = models.CharField(
         max_length=100,
@@ -84,8 +85,11 @@ class Order(models.Model):
     )
     delivery_man = models.ForeignKey(
         DeliveryMan,
+        blank=True,
+        null=True,
         on_delete=models.PROTECT,
-        verbose_name='Entregador'
+        verbose_name='Entregador',
+        db_index=True
     )
     code = models.CharField(
         max_length=15,

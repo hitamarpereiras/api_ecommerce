@@ -1,5 +1,6 @@
 from django.db import models
 from customers.models import Customer
+from delivery.models import DeliveryMan
 
 # Create your models here.
 class Order(models.Model):
@@ -81,11 +82,10 @@ class Order(models.Model):
         max_digits=10,
         verbose_name='Taxa de Entrega'
     )
-    # Aqui precisa trocar para uma chave estrangeira
-    delivery_manId = models.CharField(
-        blank=True,
-        null=True,
-        verbose_name='Entregador ID'
+    delivery_man = models.ForeignKey(
+        DeliveryMan,
+        on_delete=models.PROTECT,
+        verbose_name='Entregador'
     )
     code = models.CharField(
         max_length=15,

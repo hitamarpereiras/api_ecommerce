@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from sales.models import Sale
+from sales.serializers import SaleSerializer
 
-# Create your views here.
+
+class SaleViewSet(viewsets.ModelViewSet):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer

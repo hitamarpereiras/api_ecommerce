@@ -3,10 +3,11 @@ from accounts.models import Account
 
 
 class Banner(models.Model):
-    id_account = models.ForeignKey(
+    account = models.ForeignKey(
         Account,
         on_delete=models.CASCADE,
-        verbose_name='Conta ID'
+        verbose_name='Conta',
+        db_index=True
     )
     name = models.CharField(max_length=100)
     banner_url = models.URLField(
@@ -16,7 +17,8 @@ class Banner(models.Model):
     )
     link = models.URLField(
         blank=True,
-        null=True
+        null=True,
+        verbose_name='Link da Publicação'
     )
     value_publi = models.DecimalField(
         max_digits=10,
@@ -53,3 +55,10 @@ class Banner(models.Model):
         auto_now=True,
         verbose_name='Atualizado em',
     )
+
+    class Meta:
+        verbose_name = 'Banner'
+        verbose_name_plural = 'Banners'
+    
+    def __str__(self):
+        return self.name

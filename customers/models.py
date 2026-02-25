@@ -27,6 +27,11 @@ class Customer(models.Model):
         null=True,
         verbose_name='Número da casa'
     )
+    coins = models.IntegerField(
+        blank=True,
+        null=True,
+        verbose_name='Moedas de troca'
+    )
     avatar_url = models.URLField(
         blank=True,
         null=True,

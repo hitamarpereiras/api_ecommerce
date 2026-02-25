@@ -5,6 +5,8 @@ from accounts.models import Account
 class Banner(models.Model):
     account = models.ForeignKey(
         Account,
+        blank=True,
+        null=True,
         on_delete=models.CASCADE,
         verbose_name='Conta',
         db_index=True

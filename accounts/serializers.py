@@ -2,7 +2,6 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from accounts.models import Account
 
-
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -12,23 +11,7 @@ class RegisterSerializer(serializers.Serializer):
     address = serializers.CharField(required=False, allow_blank=True)
     cnpj = serializers.CharField(required=False, allow_blank=True)
 
-    def create(self, validated_data):
-        username = validated_data.pop("username")
-        password = validated_data.pop("password")
-        
-        # Criar usuario
-        user = User.objects.create_user(
-            username=username,
-            password=password
-        )
-
-        # vincular conta
-        account = Account.objects.create(
-            user=user,
-            **validated_data
-        )
-
-        return account
+    image = serializers.ImageField(required=False)
 
 class AccountSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False, write_only=True)

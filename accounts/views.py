@@ -10,15 +10,19 @@ from accounts.serializers import AccountSerializer, RegisterSerializer
 from services.img_service import process_image
 from services.supabase_service import upload_image
 from services.get_colors_service import get_this_colors
+from services.account_service import AccountService
 
 
 class RegisterView(APIView):
     permission_classes = []
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def post(self, request):
         serializer = RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+
+        # serve para chamar o serviço de criação de conta
+        AccountService.register_account(serializer.validated_data)
 
         return Response(
             {"message": "Usuário e conta criados com sucesso"},

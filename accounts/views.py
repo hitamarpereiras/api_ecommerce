@@ -1,11 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import status
 
 from accounts.models import Account
-from accounts.serializers import AccountSerializer, AccountLogoUploadSerializer
+from accounts.serializers import AccountSerializer
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
@@ -15,41 +15,32 @@ from services.get_colors_service import get_this_colors
 class AccountViewSet(viewsets.ModelViewSet):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
-    @action(
-        detail=False,
-        methods=["post"],
-        parser_classes=[MultiPartParser, FormParser],
-        url_path="upload-logo"
-    )
-    def upload_logo(self, request):
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
 
-        serializer = AccountLogoUploadSerializer(data=request.data)
+        logo = request.FILES.get("logo")
+
+        # Atualiza campos normais
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
 
-        image = serializer.validated_data["logo"]
+        # Se veio imagem → processa
+        if logo:
+            buffer, ext = process_image(logo, 300, 300)
 
-        account = request.user.accounts
+            avatar_url = upload_image(
+                file_bytes=buffer.getvalue(),
+                ext=ext,
+                bucket="avatars"
+            )
 
-        # Processa imagem
-        buffer, ext = process_image(image, 300, 300)
+            palette = get_this_colors(buffer)
 
-        # Upload para Supabase
-        avatar_url = upload_image(
-            file_bytes=buffer.getvalue(),
-            ext=ext,
-            bucket="avatars"
-        )
+            instance.avatar_url = avatar_url
+            instance.color_palette = palette
+            instance.save()
 
-        # Extrai paleta de cores
-        palette = get_this_colors(buffer)
-
-        # Atualiza model
-        account.avatar_url = avatar_url
-        account.color_palette = palette
-        account.save()
-
-        return Response({
-            "avatar_url": avatar_url,
-            "color_palette": palette
-        }, status=status.HTTP_200_OK)
+        return Response(self.get_serializer(instance).data)

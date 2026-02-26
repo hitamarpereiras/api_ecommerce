@@ -11,11 +11,11 @@ def process_image(image, width, height):
     img = img.resize((width, height))
 
     buffer = BytesIO()
-    img.save(buffer, format="JPEG", quality=95)
+    img.save(buffer, format="JPEG", quality=90, optimize=True)
 
     buffer.seek(0)
 
-    return buffer
+    return buffer, "jpg"
 
 
 

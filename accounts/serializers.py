@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from accounts.models import Account
 
+class AccountLogoUploadSerializer(serializers.Serializer):
+    logo = serializers.ImageField()
+
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account

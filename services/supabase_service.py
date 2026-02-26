@@ -10,11 +10,10 @@ url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
 supabase = create_client(url, key)
 
-def upload_image(file_bytes, filename, bucket):
+def upload_image(file_bytes, ext, bucket):
     SUPABASE_BUCKET = bucket
 
     date = datetime.now().strftime("%d%m%Y_%H%M%S")
-    ext = filename.split('.')[-1]
     name_image = f"{date}_{uuid.uuid4().hex[:8]}.{ext}"
     path_storage = f"public/{name_image}"
 

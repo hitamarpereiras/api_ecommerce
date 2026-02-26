@@ -11,9 +11,9 @@ class AccountService:
     @staticmethod
     @transaction.atomic
     def register_account(validated_data):
-        """
-        Cria User + Account, processa imagem e atualiza os campos adicionais
-        """
+        
+        #Cria User + Account, processa imagem e atualiza os campos adicionais
+        
         image = validated_data.pop("image", None)
         username = validated_data.pop("username")
         password = validated_data.pop("password")

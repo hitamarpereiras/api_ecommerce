@@ -1,15 +1,29 @@
 from rest_framework import viewsets
-from rest_framework.decorators import action
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework import status
 
 from accounts.models import Account
-from accounts.serializers import AccountSerializer
+from accounts.serializers import AccountSerializer, RegisterSerializer
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
 from services.get_colors_service import get_this_colors
+
+
+class RegisterView(APIView):
+    permission_classes = []
+
+    def post(self, request):
+        serializer = RegisterSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            {"message": "Usuário e conta criados com sucesso"},
+            status=status.HTTP_201_CREATED
+        )
 
 
 class AccountViewSet(viewsets.ModelViewSet):
@@ -20,7 +34,7 @@ class AccountViewSet(viewsets.ModelViewSet):
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        logo = request.FILES.get("logo")
+        logo = request.FILES.get("image")
 
         # Atualiza campos normais
         serializer = self.get_serializer(instance, data=request.data, partial=True)

@@ -10,14 +10,24 @@ from services.img_service import process_image
 from services.supabase_service import upload_image
 
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter, OrderingFilter
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     parser_classes = [MultiPartParser, FormParser]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+
+    filterset_fields = ['category', 'price', 'account']
+    search_fields = ['name']
+    ordering_fields = ['price', 'updated_at']
 
     def create(self, request, *args, **kwargs):
         image_product = request.FILES.get("image")

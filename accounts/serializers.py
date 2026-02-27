@@ -35,6 +35,9 @@ class AccountSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['avatar_url', 'color_palette', 'created_at', 'updated_at']
 
+    """Sobrescreve os métodos create e update para remover 
+    o campo "image" antes de criar ou atualizar a instância"""
+
     def create(self, validated_data):
         validated_data.pop("image", None)
         return super().create(validated_data)

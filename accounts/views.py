@@ -25,7 +25,7 @@ class RegisterView(APIView):
         AccountService.register_account(serializer.validated_data)
 
         return Response(
-            {"message": "Usuário e conta criados com sucesso"},
+            {"message": "Usuário criado com sucesso"},
             status=status.HTTP_201_CREATED
         )
 
@@ -61,4 +61,7 @@ class AccountViewSet(viewsets.ModelViewSet):
             instance.color_palette = palette
             instance.save()
 
-        return Response(self.get_serializer(instance).data)
+        return Response(
+            {"message": "Usuário atualizados com sucesso"},
+            status=status.HTTP_200_OK
+        )

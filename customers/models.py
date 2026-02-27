@@ -22,7 +22,8 @@ class Customer(models.Model):
         null=True,
         verbose_name='Endereço'
     )
-    house_number = models.IntegerField(
+    house_number = models.CharField(
+        max_length=10,
         blank=True,
         null=True,
         verbose_name='Número da casa'

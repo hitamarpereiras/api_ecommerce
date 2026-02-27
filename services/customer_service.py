@@ -12,7 +12,7 @@ class CustomerService:
     @transaction.atomic
     def register_customer(validated_data):
         
-        #Cria User + Account, processa imagem e atualiza os campos adicionais
+        #Cria User + Customer, processa imagem e atualiza os campos adicionais
         
         image = validated_data.pop("image", None)
         username = validated_data.pop("username")
@@ -24,8 +24,8 @@ class CustomerService:
             password=password
         )
 
-        # Criar Account
-        account = Customer.objects.create(
+        # Criar Customer
+        customer = Customer.objects.create(
             user=user,
             **validated_data
         )
@@ -42,7 +42,7 @@ class CustomerService:
             )
 
             # 3.3 ➤ atualizar a account
-            account.avatar_url = avatar_url
-            account.save()
+            customer.avatar_url = avatar_url
+            customer.save()
 
-        return account
+        return customer

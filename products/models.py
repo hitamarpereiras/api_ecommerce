@@ -93,7 +93,7 @@ class Product(models.Model):
         )
 
         class Meta:
-            ordering = ['-updated_at']
+            ordering = ['updated_at']
             verbose_name = 'Produto'
             verbose_name_plural = 'Produtos'
 

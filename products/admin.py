@@ -34,3 +34,7 @@ class ProductAdmin(admin.ModelAdmin):
         'category',
         'created_at'
     ]
+    search_fields = [
+        'name',
+        'created_at'
+    ]

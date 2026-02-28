@@ -14,7 +14,7 @@ class OrderSerializer(serializers.ModelSerializer):
             'address',
             'latitude',
             'longitude',
-            'house_numeber',
+            'house_number',
             'total',
             'subtotal',
             'remaining',

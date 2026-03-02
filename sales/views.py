@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from core.permissions import OnlyTheOwnerAccount
 
 class SaleViewSet(viewsets.ModelViewSet):
-    queryset = Sale.objects.all()
+    queryset = Sale.objects.all().order_by('-created_at')
     serializer_class = SaleSerializer
     permission_classes = [IsAuthenticated, OnlyTheOwnerAccount]
 

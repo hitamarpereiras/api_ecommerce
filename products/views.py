@@ -4,6 +4,7 @@ from products.serializers import CategorySerializer, ProductSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.response import Response
+from core.permissions import OnlyTheOwnerAccount
 
 
 from services.img_service import process_image
@@ -20,6 +21,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [OnlyTheOwnerAccount]
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     parser_classes = [MultiPartParser, FormParser]
@@ -28,6 +30,10 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_fields = ['category', 'price', 'account']
     search_fields = ['name']
     ordering_fields = ['price', 'updated_at']
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(account__user=user)
 
     def create(self, request, *args, **kwargs):
         image_product = request.FILES.get("image")

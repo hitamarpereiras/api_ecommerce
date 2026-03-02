@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -30,6 +31,7 @@ class CustomerRgisterView(APIView):
  
 
 class CustomerViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminUser, DjangoModelPermissions]
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     parser_classes = [MultiPartParser, FormParser]

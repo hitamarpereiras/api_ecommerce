@@ -1,27 +1,26 @@
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
-from sales.models import Sale
+from orders.models import Order 
 from products.models import Product
 import json
 
 
-@receiver(pre_save, sender=Sale)
+@receiver(pre_save, sender=Order)
 def update_product_stock(sender, instance, **kwargs):
-
+    print("Signal de pré-save disparado para Order:", instance)
     # Se não esxistir no banco ignora
     if not instance.pk:
         return
     
     try:
-        old_sale = Sale.objects.get(pk=instance.pk)
-    except Sale.DoesNotExist:
+        old_order = Order.objects.get(pk=instance.pk)
+    except Order.DoesNotExist:
         return
     
     # só dispara quando status for de false para true
-    if old_sale.status is False and instance.status is True:
+    if old_order.status is False and instance.status is True:
         
-        order = instance.order
-        itens = order.itens
+        itens = instance.itens
 
         if not itens:
             return

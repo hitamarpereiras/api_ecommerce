@@ -72,6 +72,7 @@ class Sale(models.Model):
     class Meta:
         verbose_name = 'Venda'
         verbose_name_plural = 'Vendas'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.created_at}"

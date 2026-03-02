@@ -10,7 +10,8 @@ class OrderAdmin(admin.ModelAdmin):
         'phone',
         'address',
         'total',
-        'created_at'
+        'status',
+        'created_at',
     ]
     search_fields = [
         'phone',

@@ -24,4 +24,5 @@ class OrderSerializer(serializers.ModelSerializer):
             'code',
             'created_at',
             'itens',
+            'status',
         ]

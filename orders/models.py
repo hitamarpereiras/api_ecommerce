@@ -97,6 +97,10 @@ class Order(models.Model):
         null=True,
         verbose_name='Código'
     )
+    status = models.BooleanField(
+        default=False,
+        verbose_name='Entregue'
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Criado em',
@@ -110,6 +114,7 @@ class Order(models.Model):
     class Meta:
         verbose_name = 'Pedido'
         verbose_name_plural = 'Pedidos'
+        ordering = ['-created_at']
 
     def __str__(self):
         return f"{self.code}"

@@ -40,7 +40,7 @@ class Sale(models.Model):
         verbose_name='Conta',
         db_index=True
     )
-    order = models.ForeignKey(
+    order = models.OneToOneField(
         Order,
         on_delete=models.PROTECT,
         verbose_name='Pedido',

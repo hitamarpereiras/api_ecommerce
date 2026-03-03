@@ -33,7 +33,7 @@ class CustomerRgisterView(APIView):
 
 class CustomerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    queryset = Customer.objects.all()
+    queryset = Customer.objects.all().order_by('-created_at')
     serializer_class = CustomerSerializer
     parser_classes = [MultiPartParser, FormParser]
 

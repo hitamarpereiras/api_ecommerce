@@ -10,3 +10,12 @@ class OnlyTheOwnerAccount(permissions.BasePermission):
             return obj.account and obj.account.user == user
         
         return False
+    
+class OnlyTheOwnerCustomer(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+
+        user = request.user 
+        if hasattr(obj, "customer"):
+            return obj.customer and obj.customer.user == user
+
+        return False

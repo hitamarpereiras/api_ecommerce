@@ -1,4 +1,4 @@
-from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -7,6 +7,7 @@ from customers.models import Customer
 from customers.serializers import CustomerSerializer, RegisterCustomerSerializer
 from services.customer_service import CustomerService
 from rest_framework.parsers import MultiPartParser, FormParser
+from core.permissions import OnlyTheOwnerCustomer
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
@@ -31,10 +32,14 @@ class CustomerRgisterView(APIView):
  
 
 class CustomerViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminUser, DjangoModelPermissions]
+    permission_classes = [IsAuthenticated]
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     parser_classes = [MultiPartParser, FormParser]
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(user=user)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'django_filters',
+    'rolepermissions',
 
     'authentication',
     'accounts',
@@ -154,6 +155,6 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-
+ROLEPERMISSIONS_MODULE = 'core.roles'
 CORS_ALLOW_ALL_ORIGINS = True
 FILE_UPLOAD_MAX_MEMORY_SIZE = 1000000 # 1MB 

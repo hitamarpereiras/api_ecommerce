@@ -1,4 +1,3 @@
-from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,7 +12,6 @@ from services.supabase_service import upload_image
 from services.get_colors_service import get_this_colors
 from services.account_service import AccountService
 
-from core.permissions import OnlyTheOwnerAccount
 
 class RegisterView(APIView):
     parser_classes = [MultiPartParser, FormParser, JSONParser]
@@ -32,7 +30,7 @@ class RegisterView(APIView):
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    permission_classes = [OnlyTheOwnerAccount]
+    permission_classes = []
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]

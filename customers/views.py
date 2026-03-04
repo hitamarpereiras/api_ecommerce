@@ -7,7 +7,6 @@ from customers.models import Customer
 from customers.serializers import CustomerSerializer, RegisterCustomerSerializer
 from services.customer_service import CustomerService
 from rest_framework.parsers import MultiPartParser, FormParser
-from core.permissions import OnlyTheOwnerCustomer
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
@@ -37,9 +36,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
     serializer_class = CustomerSerializer
     parser_classes = [MultiPartParser, FormParser]
 
-    def get_queryset(self):
-        user = self.request.user
-        return self.queryset.filter(user=user)
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()

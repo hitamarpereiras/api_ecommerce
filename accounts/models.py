@@ -6,7 +6,7 @@ class Account(models.Model):
     user = models.OneToOneField(
         User,
         on_delete=models.PROTECT,
-        related_name='accounts',
+        related_name='account',
         verbose_name='Conta'
     )
     name = models.CharField(max_length=100, verbose_name='Nome')
@@ -59,6 +59,7 @@ class Account(models.Model):
     )
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Conta'
         verbose_name_plural = 'Contas'
 

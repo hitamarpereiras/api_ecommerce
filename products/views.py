@@ -4,7 +4,7 @@ from products.serializers import CategorySerializer, ProductSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.response import Response
-
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
@@ -20,16 +20,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes = []
-    queryset = Product.objects.all()
+    permission_classes = [IsAuthenticated]
+    queryset = Product.objects.all().order_by('-updated_at')
     serializer_class = ProductSerializer
     parser_classes = [MultiPartParser, FormParser]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
-
     filterset_fields = ['category', 'price', 'account']
-    search_fields = ['name']
-    ordering_fields = ['price', 'updated_at']
 
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        
+        return [IsAuthenticated()]
 
     def create(self, request, *args, **kwargs):
         image_product = request.FILES.get("image")

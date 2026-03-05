@@ -4,16 +4,23 @@ from banners.serializers import BannerSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.response import Response
-
+from rest_framework.permissions import IsAuthenticated
+from core.permissions import IsOwnerOfBanner
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
 
 
 class BannerViewSet(viewsets.ModelViewSet):
-    queryset = Banner.objects.all()
+    permission_classes = [IsAuthenticated, IsOwnerOfBanner]
+    queryset = Banner.objects.all().order_by('-created_at')
     serializer_class = BannerSerializer
     parser_classes = [MultiPartParser, FormParser]
+
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(account__user=user)
+
 
     def create(self, request, *args, **kwargs):
         banner_image = request.FILES.get("image")

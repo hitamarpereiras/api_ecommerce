@@ -59,6 +59,7 @@ class Banner(models.Model):
     )
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Banner'
         verbose_name_plural = 'Banners'
     

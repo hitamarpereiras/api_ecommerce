@@ -37,6 +37,10 @@ class CustomerViewSet(viewsets.ModelViewSet):
     parser_classes = [MultiPartParser, FormParser]
 
 
+    def get_queryset(self):
+        user = self.request.user
+        return self.queryset.filter(user=user)
+
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
 

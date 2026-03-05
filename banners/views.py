@@ -9,6 +9,7 @@ from core.permissions import IsOwnerOfBanner
 
 from services.img_service import process_image
 from services.supabase_service import upload_image
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class BannerViewSet(viewsets.ModelViewSet):
@@ -16,6 +17,8 @@ class BannerViewSet(viewsets.ModelViewSet):
     queryset = Banner.objects.all().order_by('-created_at')
     serializer_class = BannerSerializer
     parser_classes = [MultiPartParser, FormParser]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['status']
 
     def get_queryset(self):
         user = self.request.user

@@ -35,6 +35,10 @@ class AccountViewSet(viewsets.ModelViewSet):
     serializer_class = AccountSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
 
+    def get_queryset(self):
+        user = self.request.user
+        return Account.objects.filter(id=user.id) if user.is_authenticated else Account.objects.none()
+
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
 

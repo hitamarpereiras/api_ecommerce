@@ -66,6 +66,8 @@ class DeliveryMan(models.Model):
     )
     account = models.ForeignKey(
         Account,
+        null=True,
+        blank=True,
         on_delete=models.PROTECT,
         verbose_name='Conta'
     )
@@ -79,6 +81,7 @@ class DeliveryMan(models.Model):
     )
 
     class Meta:
+        ordering = ['-created_at']
         verbose_name = 'Entregador'
         verbose_name_plural = 'Entregadores'
 

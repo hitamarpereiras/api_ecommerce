@@ -1,4 +1,5 @@
 from pathlib import Path
+import dj_database_url
 import os
 from dotenv import load_dotenv
 from datetime import timedelta
@@ -14,11 +15,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5lly4)%(kx7d59^a3ivz6&vt@zsn7n#4n7^rbz^g3u+%y!xq=e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
+    ".onrender.com",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
 ]
@@ -54,6 +56,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,6 +90,16 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 load_dotenv(dotenv_path=os.path.join('database', '.env'))
 
+
+DATABASES = {
+    'default': dj_database_url.parse(
+        os.environ.get("URL"),
+        conn_max_age=300,
+        ssl_require=True,
+    )
+}
+
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -96,7 +109,7 @@ DATABASES = {
         'HOST': os.getenv('DB_HOST'),
         'PORT': os.getenv('DB_PORT'),
     }
-}
+}"""
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -153,6 +166,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 ROLEPERMISSIONS_MODULE = 'core.roles'
 CORS_ALLOW_ALL_ORIGINS = True

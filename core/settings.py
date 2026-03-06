@@ -20,6 +20,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
+    "ecommerce-api-4k6g.onrender.com",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
 ]

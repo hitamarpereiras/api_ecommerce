@@ -4,9 +4,9 @@ from delivery.views import DeliveryManViewSet, RegisterView
 
 
 router = DefaultRouter()
-router.register(r'delivery', DeliveryManViewSet)
+router.register(r'deliverys', DeliveryManViewSet)
 
 urlpatterns = [
-    path('delivery/register/', RegisterView.as_view(), name='register'),
+    path('deliverys/register/', RegisterView.as_view(), name='register'),
     path('', include(router.urls)),
 ]

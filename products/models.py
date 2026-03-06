@@ -2,6 +2,14 @@ from django.db import models
 from accounts.models import Account
 
 class Category(models.Model):
+        account = models.ForeignKey(
+             Account,
+             blank=True,
+             null=True,
+             on_delete=models.PROTECT,
+             verbose_name='Conta',
+             db_index=True
+        )
         name = models.CharField(
             max_length=50,
             unique=True,
@@ -22,6 +30,7 @@ class Category(models.Model):
         )
 
         class Meta:
+            ordering = ['-updated_at']
             verbose_name = 'Categoria'
             verbose_name_plural = 'Categorias'
 
@@ -35,12 +44,15 @@ class Product(models.Model):
             null=True,
             on_delete=models.CASCADE,
             verbose_name='Conta',
+            related_name='products',
             db_index=True
         )
         name = models.CharField(max_length=100)
-        category = models.CharField(
-                max_length=50,
+        category = models.ForeignKey(
+                Category,
+                on_delete=models.PROTECT,
                 verbose_name='Categoria',
+                related_name='products',
                 db_index=True
         )
         description = models.TextField(

@@ -15,12 +15,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5lly4)%(kx7d59^a3ivz6&vt@zsn7n#4n7^rbz^g3u+%y!xq=e'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 
 CORS_ALLOWED_ORIGINS = [
-    ".onrender.com",
     "http://localhost:5500",
     "http://127.0.0.1:5500",
 ]
@@ -94,9 +93,13 @@ load_dotenv(dotenv_path=os.path.join('database', '.env'))
 DATABASES = {
     'default': dj_database_url.parse(
         os.environ.get("URL"),
-        conn_max_age=300,
+        conn_max_age=600,
         ssl_require=True,
     )
+}
+
+DATABASES['default']['OPTIONS'] = {
+    'sslmode': 'require'
 }
 
 """

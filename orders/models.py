@@ -48,7 +48,7 @@ class Order(models.Model):
         decimal_places=6, 
         verbose_name='Longitude'
     )
-    house_number = models.IntegerField(
+    house_number = models.CharField(
         blank=True,
         null=True,
         verbose_name='Número da casa'

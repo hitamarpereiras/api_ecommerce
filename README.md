@@ -123,6 +123,49 @@ Body:
 ------------------------------------------------------------------------
 
 
+# Categoria
+
+Endpoints responsáveis por gerenciar categorias.
+
+⚠️ Requer autenticação.
+
+Authorization: Bearer SEU_TOKEN
+
+A API retorna **somente categoria da conta do usuário autenticado**.
+
+------------------------------------------------------------------------
+
+# Criar Categoria
+
+POST /api/v1/category/
+
+| Campo        | Tipo     | Obrigatório | Descrição                          |
+|--------------|----------|-------------|------------------------------------|
+| id           | integer  | Não         | ID da categoria                    |
+| name         | string   | Sim         | Nome da categoria                  |
+| description  | string   | Não         | Descrição da categoria             |
+| created_at   | datetime | Não         | Data de criação do registro        |
+| updated_at   | datetime | Não         | Data da última atualização         |
+
+------------------------------------------------------------------------
+
+# Atualizar Categoria
+
+PUT /api/v1/category/{id}/
+
+ou
+
+PATCH /api/v1/category/{id}/
+
+------------------------------------------------------------------------
+
+# Deletar Categoria
+
+DELETE /api/v1/category/{id}/
+
+------------------------------------------------------------------------
+
+
 # Produtos
 
 Endpoints responsáveis por gerenciar produtos.
@@ -173,6 +216,16 @@ GET /api/v1/products/{id}/
 
 ------------------------------------------------------------------------
 
+# Buscar Produto por
+
+GET /api/v1/products/?category= | id da categoria
+
+GET /api/v1/products/?price=    | Preço
+
+GET /api/v1/products/?account=  | id da conta        
+
+------------------------------------------------------------------------
+
 # Atualizar Produto
 
 PUT /api/v1/products/{id}/
@@ -207,6 +260,140 @@ DELETE /api/v1/products/{id}/
 | crop_height  | integer  | Altura da área de recorte da imagem           |
 | created_at   | datetime | Data de criação do registro                   |
 | updated_at   | datetime | Data da última atualização                    |
+
+------------------------------------------------------------------------
+
+
+# Clientes
+
+Endpoints responsáveis por gerenciar produtos.
+
+Pra criar não requer autenticação.
+
+Authorization: Bearer SEU_TOKEN
+
+A API retorna **somente somente o cliente autenticado**.
+
+------------------------------------------------------------------------
+
+# Registro de Cliente
+
+Endpoint responsável por **criar uma nova conta de cliente**.
+
+## Endpoint
+
+    POST /customers/register/
+
+## Campos
+
+| Campo        | Tipo    | Obrigatório | Descrição                    |
+|--------------|---------|-------------|------------------------------|
+| username     | string  | Sim         | Nome de usuário para login   |
+| password     | string  | Sim         | Senha da conta               |
+| name         | string  | Sim         | Nome do cliente              |
+| phone        | string  | Não         | Telefone do cliente          |
+| address      | string  | Não         | Endereço do cliente          |
+| house_number | string  | Não         | Número da residência         |
+| coins        | integer | Não         | Moedas ou pontos do cliente  |
+| image        | file    | Não         | Avatar do cliente            |
+
+## Exemplo de Request
+
+``` json
+{
+  "username": "joao123",
+  "password": "123456",
+  "name": "João Silva",
+  "phone": "74999999999",
+  "address": "Rua das Flores",
+  "house_number": "120"
+}
+```
+------------------------------------------------------------------------
+
+## Estrutura
+
+| Campo        | Tipo     | Obrigatório | Descrição                         |
+|--------------|----------|-------------|-----------------------------------|
+| id           | integer  | Não         | ID do cliente                     |
+| name         | string   | Sim         | Nome do cliente                   |
+| phone        | string   | Não         | Telefone do cliente               |
+| address      | string   | Não         | Endereço do cliente               |
+| house_number | string   | Não         | Número da residência              |
+| coins        | integer  | Não         | Moedas ou pontos do cliente       |
+| avatar_url   | string   | Não         | URL pública da imagem do cliente  |
+| image        | file     | Não         | Upload de avatar do cliente       |
+| created_at   | datetime | Não         | Data de criação                   |
+| updated_at   | datetime | Não         | Data da última atualização        |
+
+### Observações
+
+-   `id`, `created_at` e `updated_at` são gerados automaticamente.
+-   `avatar_url` é um campo somente leitura.
+-   `image` é usado apenas para upload da imagem.
+
+------------------------------------------------------------------------
+
+# Endpoints
+
+## Listar cliente autenticado
+
+    GET /customers/
+
+Retorna **somente o cliente autenticado**.
+
+### Exemplo de resposta
+
+``` json
+[
+  {
+    "id": 1,
+    "name": "João Silva",
+    "phone": "74999999999",
+    "address": "Rua das Flores",
+    "house_number": "120",
+    "coins": 10,
+    "avatar_url": "https://cdn.site.com/avatar.jpg",
+    "created_at": "2026-03-07T18:10:21Z",
+    "updated_at": "2026-03-07T18:10:21Z"
+  }
+]
+```
+
+------------------------------------------------------------------------
+
+## Atualizar cliente
+
+    PATCH /customers/{id}/
+
+### Exemplo
+
+``` json
+{
+  "phone": "74988888888"
+}
+```
+------------------------------------------------------------------------
+
+## Deletar cliente
+
+    DELETE /customers/{id}/
+
+------------------------------------------------------------------------
+
+# Fluxo básico do cliente
+
+    1 - Registrar cliente
+    POST /customers/register/
+
+    2 - Autenticar
+    POST /token/
+
+    3 - Ver produtos
+    GET /products/
+
+    4 - Fazer pedido
+    POST /orders/
 
 ------------------------------------------------------------------------
 

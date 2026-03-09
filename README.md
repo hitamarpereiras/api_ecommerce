@@ -4,7 +4,7 @@ API REST para gerenciamento de contas de um sistema de e‑commerce.
 
 Base URL:
 
-https://ecommerce-api-4k6g.onrender.com/api/v1/
+https://****/api/v1/
 
 ------------------------------------------------------------------------
 
@@ -28,7 +28,7 @@ POST /api/v1/accounts/register/
 
 URL completa:
 
-https://ecommerce-api-4k6g.onrender.com/api/v1/accounts/register/
+https://****/api/v1/accounts/register/
 
 Content-Type:
 
@@ -49,7 +49,7 @@ multipart/form-data
 ### Exemplo curl
 
 curl -X POST
-https://ecommerce-api-4k6g.onrender.com/api/v1/accounts/register/\
+https://****/api/v1/accounts/register/\
 -F "username=loja123"\
 -F "password=123456"\
 -F "name=Loja Exemplo"\
@@ -67,7 +67,7 @@ POST /api/v1/authentication/token/
 
 URL:
 
-https://ecommerce-api-4k6g.onrender.com/api/v1/authentication/token/
+https://****/api/v1/authentication/token/
 
 Content-Type:
 

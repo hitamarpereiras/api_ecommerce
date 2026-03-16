@@ -17,9 +17,13 @@ SECRET_KEY = 'django-insecure-5lly4)%(kx7d59^a3ivz6&vt@zsn7n#4n7^rbz^g3u+%y!xq=e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ecommerce-api-4k6g.onrender.com']
+ALLOWED_HOSTS = [
+    'ecommerce-api-4k6g.onrender.com',
+    'http://localhost:5173/',
+    ]
 
 CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173/",
     "https://ecommerce-api-4k6g.onrender.com",
     "http://localhost:5500",
     "http://127.0.0.1:5500",

@@ -137,7 +137,7 @@ A API retorna **somente categoria da conta do usuário autenticado**.
 
 # Criar Categoria
 
-POST /api/v1/category/
+POST /api/v1/categories/
 
 | Campo        | Tipo     | Obrigatório | Descrição                          |
 |--------------|----------|-------------|------------------------------------|
@@ -151,17 +151,17 @@ POST /api/v1/category/
 
 # Atualizar Categoria
 
-PUT /api/v1/category/{id}/
+PUT /api/v1/categories/{id}/
 
 ou
 
-PATCH /api/v1/category/{id}/
+PATCH /api/v1/categories/{id}/
 
 ------------------------------------------------------------------------
 
 # Deletar Categoria
 
-DELETE /api/v1/category/{id}/
+DELETE /api/v1/categories/{id}/
 
 ------------------------------------------------------------------------
 

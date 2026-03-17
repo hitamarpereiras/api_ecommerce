@@ -59,7 +59,10 @@ class ProductViewSet(viewsets.ModelViewSet):
         account = request.user.account
 
         # salvando com a url
-        product = serializer.save(image_url=image_url)
+        product = serializer.save(
+            account=account,
+            image_url=image_url
+            )
 
         return Response(
             {"message": "Produto criado com sucesso"},

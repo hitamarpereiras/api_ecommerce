@@ -123,6 +123,80 @@ Body:
 ------------------------------------------------------------------------
 
 
+# Banners
+
+Endpoints responsáveis por gerenciar banners.
+
+⚠️ Requer autenticação.
+
+Authorization: Bearer SEU_TOKEN
+
+A API retorna **somente banner da conta do usuário autenticado**.
+
+------------------------------------------------------------------------
+
+# Criar Banners
+
+POST /api/v1/banners/
+
+| Campo        | Tipo     | Obrigatório | Descrição                          |
+|--------------|----------|-------------|------------------------------------|
+| id           | integer  | Não         | ID                                 |
+| name         | string   | Sim         | Nome do Banner                     |
+| banner_url   | string   | Não         | Url da imagem                      |
+| link         | string   | Não         | Link do Serviço                    |
+| value_publi  | decimal  | Não         | Valor da Publicação                |
+| crop_x       | interger | Não         | Corte da imagem                    |
+| crop_y       | interger | Não         | Corte da imagem                    |
+| crop_width   | interger | Não         | Corte da imagem                    |
+| crop_height  | interger | Não         | Corte da imagem                    |
+| status       | booleano | Não         | Status de Banner                   |
+| image        | file     | Sim         | Imagem do Banner                   |
+| created_at   | datetime | Não         | Data de criação do registro        |
+| updated_at   | datetime | Não         | Data da última atualização         |
+
+------------------------------------------------------------------------
+
+# Atualizar Banner
+
+PUT /api/v1/banners/{id}/
+
+ou
+
+PATCH /api/v1/banners/{id}/
+
+------------------------------------------------------------------------
+
+### Exemplo de resposta
+
+``` json
+[
+  {
+    "id": 1,
+      "account": 3,
+      "name": "Loja de Games",
+      "banner_url": "https://132419_1115e6ab.jpg",
+      "link": null,
+      "value_publi": "15.00",
+      "crop_x": null,
+      "crop_y": null,
+      "crop_width": null,
+      "crop_height": null,
+      "status": true,
+      "created_at": "2026-03-17T13:24:21.158030Z",
+      "updated_at": "2026-03-17T13:32:02.216254Z"
+  }
+]
+```
+------------------------------------------------------------------------
+
+# Deletar Banner
+
+DELETE /api/v1/banners/{id}/
+
+------------------------------------------------------------------------
+
+
 # Categoria
 
 Endpoints responsáveis por gerenciar categorias.
@@ -159,6 +233,13 @@ PATCH /api/v1/categories/{id}/
 
 ------------------------------------------------------------------------
 
+## Buscar Categoria por
+
+GET /api/v1/categories/?name=     | Nome da categoria
+
+GET /api/v1/categories/?account=  | id da conta        
+
+------------------------------------------------------------------------
 # Deletar Categoria
 
 DELETE /api/v1/categories/{id}/

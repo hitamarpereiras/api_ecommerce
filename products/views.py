@@ -15,8 +15,10 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('-updated_at')
     serializer_class = CategorySerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ['name', 'account']
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:

@@ -7,12 +7,12 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = [
             'id',
-            'account',
             'name',
             'description',
             'created_at',
             'updated_at',
         ]
+        read_only_fields = ['account']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -22,7 +22,6 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'id',
-            'account',
             'name',
             'category',
             'description',
@@ -37,7 +36,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         ]
-        read_only_fields = ['image_url']
+        read_only_fields = ['image_url', 'account']
 
     def create(self, validated_data):
         validated_data.pop('image', None)

@@ -15,6 +15,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
     serializer_class = CategorySerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['name', 'account']

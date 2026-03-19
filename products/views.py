@@ -22,7 +22,8 @@ class CategoryViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return Category.objects.filter(account=self.request.user.account)
-        return Category.objects.all()
+        
+        return Category.objects.none()
     
     def perform_create(self, serializer):
         serializer.save(account=self.request.user.account)

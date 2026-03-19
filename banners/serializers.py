@@ -13,6 +13,8 @@ class BannerSerializer(serializers.ModelSerializer):
             'banner_url',
             'link',
             'value_publi',
+            'properties',
+            'description',
             'crop_x',
             'crop_y',
             'crop_width',

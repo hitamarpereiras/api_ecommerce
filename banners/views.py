@@ -42,8 +42,13 @@ class BannerViewSet(viewsets.ModelViewSet):
                 bucket="banners"
             )
 
+        account = request.user.account
+
         # salvando com a url
-        banner = serializer.save(banner_url=banner_url)
+        banner = serializer.save(
+            account=account,
+            banner_url=banner_url
+            )
 
         return Response(
             {"message": "Banner criado com sucesso"},

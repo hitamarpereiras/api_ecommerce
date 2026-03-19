@@ -4,7 +4,7 @@ from banners.serializers import BannerSerializer
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from core.permissions import IsOwnerOfBanner
 
 from services.img_service import process_image
@@ -21,8 +21,17 @@ class BannerViewSet(viewsets.ModelViewSet):
     filterset_fields = ['status']
 
     def get_queryset(self):
-        user = self.request.user
-        return self.queryset.filter(account__user=user)
+        if self.request.user.is_authenticated:
+            return Banner.objects.filter(account=self.request.user.account)
+        
+        return Banner.objects.none()
+    
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            return [AllowAny()]
+        
+        return [IsOwnerOfBanner()]
 
 
     def create(self, request, *args, **kwargs):

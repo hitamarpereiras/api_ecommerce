@@ -45,7 +45,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.action in ['list', 'retrieve']:
-            return Product.objects.filter(status=True).order_by('-created_at')
+            return Product.objects.all().order_by('-created_at')
 
         return Product.objects.filter(account=self.request.user.account)
     

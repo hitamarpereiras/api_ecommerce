@@ -37,13 +37,18 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all().order_by('-updated_at')
     serializer_class = ProductSerializer
     parser_classes = [MultiPartParser, FormParser]
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_fields = ['category', 'price', 'account']
 
+    def get_queryset(self):
+        if self.action in ['list', 'retrieve']:
+            return Product.objects.filter(status=True).order_by('-created_at')
+
+        return Product.objects.filter(account=self.request.user.account)
+    
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]

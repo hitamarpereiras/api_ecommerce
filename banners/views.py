@@ -11,6 +11,7 @@ from services.supabase_service import upload_image
 from django_filters.rest_framework import DjangoFilterBackend
 
 
+
 class BannerViewSet(viewsets.ModelViewSet):
     queryset = Banner.objects.all().order_by('-created_at')
     serializer_class = BannerSerializer

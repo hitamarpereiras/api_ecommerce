@@ -13,7 +13,6 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 
 class BannerViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated, IsOwnerOfBanner]
     queryset = Banner.objects.all().order_by('-created_at')
     serializer_class = BannerSerializer
     parser_classes = [MultiPartParser, FormParser]

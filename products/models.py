@@ -20,6 +20,12 @@ class Category(models.Model):
             max_length=320,
             verbose_name='Descrição',
         )
+        icon = models.CharField(
+             max_length=100,
+             blank=True,
+             null=True,
+             verbose_name="Icone"
+        )
         created_at = models.DateTimeField(
             auto_now_add=True,
             verbose_name='Criado em',

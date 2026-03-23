@@ -9,6 +9,7 @@ class CategorySerializer(serializers.ModelSerializer):
             'id',
             'name',
             'description',
+            'icon',
         ]
         read_only_fields = ['account', 'created_at', 'updated_at']
 

@@ -17,11 +17,13 @@ SECRET_KEY = 'django-insecure-5lly4)%(kx7d59^a3ivz6&vt@zsn7n#4n7^rbz^g3u+%y!xq=e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [
+ALLOWED_HOSTS = ["*"]
+
+"""ALLOWED_HOSTS = [
     "ecommerce-api-4k6g.onrender.com",
     "localhost",
     "127.0.0.1",
-    ]
+    ]"""
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
@@ -165,7 +167,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage' #Mais estavel pro plano free
 
 ROLEPERMISSIONS_MODULE = 'core.roles'
 CORS_ALLOW_ALL_ORIGINS = True

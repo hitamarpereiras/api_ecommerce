@@ -24,7 +24,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         if self.request.user.is_authenticated:
             return Category.objects.filter(account=self.request.user.account)
         
-        return Category.objects.all()
+        return Category.objects.all().order_by('-updated_at')
     
     def perform_create(self, serializer):
         serializer.save(account=self.request.user.account)

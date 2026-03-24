@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from orders.models import Order
 from orders.serializers import OrderSerializer
-from rest_framework.permissions import DjangoModelPermissions, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 from core.permissions import IsOwnerOfOder
 
 class OrderViewSet(viewsets.ModelViewSet):

@@ -478,6 +478,139 @@ Retorna **somente o cliente autenticado**.
 
 ------------------------------------------------------------------------
 
+# Pedidos
+
+Endpoints responsáveis pra gerenciar pedidos.
+
+⚠️ Requer autenticação.
+
+Authorization: Bearer SEU_TOKEN
+
+A API retorna **somente pedidos do usuário logado autenticado**.
+
+
+------------------------------------------------------------------------
+
+# Criar Pedidos
+
+POST /api/v1/orders/
+
+| Campo           | Tipo     | Obrigatório | Descrição                     |
+|-----------------|----------|-------------|-------------------------------|
+| id              | integer  | Não         | ID                            |
+| customer        | string   | Sim         | Conta do cliente              |
+| name_customer   | string   | Sim         | Nome do cliente               |
+| phone           | string   | Sim         | Telefone                      |
+| observation     | string   | Não         | Observação do cliente         |
+| address         | string   | Sim         | Endereço                      |
+| latitude        | decimal  | Sim         | Coordenada de latitude        |
+| longitude       | decimal  | Sim         | Coordenada de longitude       |
+| house_number    | string   | Sim         | Número da casa                |
+| total           | decimal  | Sim         | Total da compra               |
+| subtotal        | decimal  | Sim         | Subtotal da compra            |
+| remaining       | decimal  | Não         | Troco                         |
+| payment_method  | string   | Sim         | Método de pagamento           |
+| rate_delivery   | decimal  | Não         | Taxa de entrega               |
+| delivery_man    | integer  | Não         | ID do entregador              |
+| code            | string   | Sim         | Código de entrega             |
+| itens           | json     | Sim         | Lista de itens                |
+| status          | boolean  | Sim         | Status do pedido              |
+| created_at      | date     | Não         | Data de criação               |
+
+------------------------------------------------------------------------
+
+## Observção Importante
+
+### status :
+
+Ao ser criado, o pedido recebe o valor padrão `false` no campo **status**.
+
+Quando o entregador ou um usuário do sistema confirma a entrega, o campo **status** é atualizado para `true`.
+
+Nesse momento, ocorre automaticamente a baixa no estoque dos produtos correspondentes ao pedido.
+
+### itens :
+
+Para que a função de baixar o estoque funcione é necessario passar uma lista
+dos produtos, emxemplo abaixo.
+
+``` json
+    "itens": [
+      {
+        "id": 10,
+        "name": "X-Burguer",
+        "quantity": 2,
+        "price": 15.00
+      },
+      {
+        "id": 12,
+        "name": "Refrigerante Lata",
+        "quantity": 2,
+        "price": 10.00
+      }
+    ]
+```
+
+------------------------------------------------------------------------
+
+# Atualizar Pedido
+
+PUT /api/v1/orders/{id}/
+
+ou
+
+PATCH /api/v1/orders/{id}/
+
+------------------------------------------------------------------------
+
+### Exemplo de resposta
+
+``` json
+[
+  {
+    "id": 1023,
+    "customer": 45,
+    "name_customer": "João Silva",
+    "phone": "7499999-8888",
+    "observation": "Sem cebola e pouco sal",
+    "address": "Rua das Flores",
+    "latitude": -11.7302,
+    "longitude": -40.5551,
+    "house_number": "12b",
+    "total": 58.90,
+    "subtotal": 50.00,
+    "remaining": 0.00,
+    "payment_method": "PIX",
+    "rate_delivery": 8.90,
+    "delivery_man": 7,
+    "code": "PED123456",
+    "created_at": "2026-03-24T14:35:22Z",
+    "itens": [
+      {
+        "id": 10,
+        "name": "X-Burguer",
+        "quantity": 2,
+        "price": 15.00
+      },
+      {
+        "id": 12,
+        "name": "Refrigerante Lata",
+        "quantity": 2,
+        "price": 10.00
+      }
+    ],
+    "status": "false"
+  }
+]
+```
+------------------------------------------------------------------------
+
+# Deletar Pedidos
+
+DELETE /api/v1/orders/{id}/
+
+------------------------------------------------------------------------
+
 # Fluxo básico
 
 1.  Registrar conta

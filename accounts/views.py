@@ -37,7 +37,9 @@ class AccountViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Account.objects.filter(id=user.id) if user.is_authenticated else Account.objects.none()
+        if user.is_authenticated:
+            return Account.objects.filter(user=user)
+        return Account.objects.none()
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()

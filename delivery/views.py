@@ -8,6 +8,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
+from services.validators import validate_image
 from services.img_service import process_image
 from services.supabase_service import upload_image
 from services.delivery_service import DeliveryManService
@@ -38,7 +39,9 @@ class DeliveryManViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return DeliveryMan.objects.filter(id=user.id) if user.is_authenticated else DeliveryMan.objects.none()
+        if user.is_authenticated:
+            return DeliveryMan.objects.filter(id=user.id)
+        return DeliveryMan.objects.none()
 
 
     def partial_update(self, request, *args, **kwargs):
@@ -56,6 +59,8 @@ class DeliveryManViewSet(viewsets.ModelViewSet):
 
         # Se veio imagem → processa
         if image:
+            validate_image(image)
+
             buffer, ext = process_image(image, 300, 300)
 
             avatar_url = upload_image(

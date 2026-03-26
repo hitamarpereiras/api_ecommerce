@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
+from services.validators import validate_image
 from services.img_service import process_image
 from services.supabase_service import upload_image
 
@@ -49,11 +50,15 @@ class ProductViewSet(viewsets.ModelViewSet):
 
         return Product.objects.filter(account=self.request.user.account)
     
+
+
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             return [AllowAny()]
         
         return [IsAuthenticated()]
+
+
 
     def create(self, request, *args, **kwargs):
         image_product = request.FILES.get("image")
@@ -64,6 +69,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         image_url = None
 
         if image_product:
+            validate_image(image_product)
+
             buffer, ext = process_image(image_product, 1024, 1024)
 
             image_url = upload_image(
@@ -75,7 +82,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         account = request.user.account
 
         # salvando com a url
-        product = serializer.save(
+        serializer.save(
             account=account,
             image_url=image_url
             )
@@ -85,6 +92,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             status=status.HTTP_201_CREATED
         )
 
+
+
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
         image_product = request.FILES.get("image")
@@ -93,6 +102,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         if image_product:
+            validate_image(image_product)
+
             buffer, ext = process_image(image_product, 1024, 1024)
 
             image_url = upload_image(

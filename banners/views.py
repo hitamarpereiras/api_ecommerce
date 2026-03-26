@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
 
+from services.validators import validate_image
 from services.img_service import process_image
 from services.supabase_service import upload_image
 from django_filters.rest_framework import DjangoFilterBackend
@@ -42,6 +43,8 @@ class BannerViewSet(viewsets.ModelViewSet):
         banner_url = None
 
         if banner_image:
+            validate_image(banner_image)
+
             buffer, ext = process_image(banner_image, 1200, 675)
 
             banner_url = upload_image(
@@ -71,6 +74,8 @@ class BannerViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         if banner_image:
+            validate_image(banner_image)
+
             buffer, ext = process_image(banner_image, 1200, 675)
 
             banner_url = upload_image(

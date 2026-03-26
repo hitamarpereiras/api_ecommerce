@@ -24,7 +24,7 @@ def upload_image(file_bytes, ext, bucket):
 
     # bytes diretos (sem BytesIO)
     try:
-        response = supabase.storage.from_(SUPABASE_BUCKET).upload(
+        supabase.storage.from_(SUPABASE_BUCKET).upload(
             path_storage,
             file_bytes,  # <-- aqui vão os bytes crus
             file_options={"content-type": f"image/{ext}"}

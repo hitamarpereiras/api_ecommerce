@@ -1,4 +1,4 @@
-from supabase import create_client, Client
+from supabase import create_client
 from dotenv import load_dotenv
 from datetime import datetime
 import os
@@ -6,8 +6,13 @@ import uuid
 
 
 load_dotenv()
+
 url: str = os.environ.get("SUPABASE_URL")
 key: str = os.environ.get("SUPABASE_KEY")
+
+if not url or not key:
+    raise ValueError("Supabase não configurado corretamente")
+
 supabase = create_client(url, key)
 
 def upload_image(file_bytes, ext, bucket):
@@ -18,15 +23,15 @@ def upload_image(file_bytes, ext, bucket):
     path_storage = f"public/{name_image}"
 
     # bytes diretos (sem BytesIO)
-    response = supabase.storage.from_(SUPABASE_BUCKET).upload(
-        path_storage,
-        file_bytes,  # <-- aqui vão os bytes crus
-        file_options={"content-type": f"image/{ext}"}
-    )
+    try:
+        response = supabase.storage.from_(SUPABASE_BUCKET).upload(
+            path_storage,
+            file_bytes,  # <-- aqui vão os bytes crus
+            file_options={"content-type": f"image/{ext}"}
+        )
+    except Exception:
+        raise Exception("Erro ao fazer o upload")
 
-    # O SDK retorna None quando sucesso precisamos conferir erros
-    if hasattr(response, "error") and response.error is not None:
-        raise Exception(response.error.message)
 
     # Gera URL pública
     url_publica = supabase.storage.from_(SUPABASE_BUCKET).get_public_url(path_storage)

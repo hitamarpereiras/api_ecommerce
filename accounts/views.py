@@ -2,9 +2,11 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 
 from accounts.models import Account
+from services.validators import validate_image
 from accounts.serializers import AccountSerializer, RegisterSerializer
 
 from services.img_service import process_image
@@ -30,7 +32,7 @@ class RegisterView(APIView):
 
 
 class AccountViewSet(viewsets.ModelViewSet):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     parser_classes = [MultiPartParser, FormParser, JSONParser]
@@ -51,8 +53,10 @@ class AccountViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        # Se veio imagem → processa
+
         if logo:
+            validate_image(logo) # Validar antes de processar
+
             buffer, ext = process_image(logo, 300, 300)
 
             avatar_url = upload_image(

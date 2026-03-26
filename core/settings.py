@@ -172,3 +172,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage' #Mais es
 ROLEPERMISSIONS_MODULE = 'core.roles'
 CORS_ALLOW_ALL_ORIGINS = True
 FILE_UPLOAD_MAX_MEMORY_SIZE = 1000000 # 1MB 
+
+CELERY_BROKER_URL = os.environ.get("REDIS_URL")
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'

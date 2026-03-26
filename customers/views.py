@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from customers.models import Customer
 
 from customers.serializers import CustomerSerializer, RegisterCustomerSerializer
+from services.validators import validate_image
 from services.customer_service import CustomerService
 from rest_framework.parsers import MultiPartParser, FormParser
 
@@ -39,7 +40,9 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return self.queryset.filter(user=user)
+        if user.is_authenticated:
+            return self.queryset.filter(user=user)
+        return self.queryset.none()
 
     def partial_update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -53,6 +56,8 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
         # Se veio imagem → processa
         if avatar:
+            validate_image(avatar)
+
             buffer, ext = process_image(avatar, 300, 300)
 
             avatar_url = upload_image(
